@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<constant name="struts.objectFactory" value="spring"/>	
+	<!-- <constant name="struts.devMode" value="true" /> -->
+	<constant name="struts.i18n.encoding" value="UTF-8"/>
+	<constant name="struts.multipart.maxSize" value="6144000"/>
+	<constant name="struts.multipart.saveDir" value="/tmp"/>
+	
+	<package name="pn-default" extends="json-default">
+		<default-action-ref name="NotFound"/>
+
+		<global-results>
+			<result name="forbidden">index.html</result>
+			<result name="error" type="json">
+				<param name="includeProperties">status,description</param>
+				<param name="ignoreHierarchy">false</param>
+			</result>
+			<result name="input" type="json">
+				<param name="includeProperties">status,description</param>
+				<param name="ignoreHierarchy">false</param>
+			</result>
+		</global-results>
+
+		<action name="NotFound">
+			<result>/404.html</result>
+		</action>
+	</package>
+	
+	<package name="root" extends="pn-default" namespace="/">
+		<!-- HTML results -->
+		<action name="default">
+			<result>index.html</result>
+		</action>
+	</package>
+	
+	<include file="com/webserver/user.xml"/>
+</struts>    
